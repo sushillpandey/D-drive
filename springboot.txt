@@ -1,0 +1,58 @@
+---->functional /non functional
+---->avoid writing lot of configuration
+---->it is not addressing functional asspect of application
+---->configurer classes,initializer classes 
+---->spring will itself boot up by configuring most of the thing by itself (autoconfiguration)
+---->self tuning mechanism is only supported by spring framework no other framwork has a self tuning capability of any technology
+
+
+                             Spring Boot features
+========================================================================================================================
+--->starter dependency(bsed on types of project choose starter dependency)
+--->opiniated configuration/view ( e.g automatic configuration of datasource and jdbctemplate if we add mysql jar ,
+                                       automatic configuration of dispatcher servlet handler mapping handler adapter 
+									   view resolver if we added spring mvc jar/dependency )
+  
+--->spring cli (no need to write any thing even import statement is also not required
+                 only write the class with logic and give it to spring cell it will take care of everything
+                 like auto configuration ,dependency management, import statement  and deploy the application
+                 as jar or war or ear) .we can Quick test the application through spring cli.		 
+--->actuator (helath of application/metrices of application/monitoring of application)
+=========================================================================================================================
+  
+--->avoid non functional requirement
+--->rapid application development
+--->how do you know wheter your application is running or not that is know as application monitoring(health bit)
+--->how much amount of ram/heap memory/thread dump application is taking .
+     in order to know we use jprofiler which will slow down the application in production enviroment.
+	 so use spring actuator it will handle all those issues.
+---->watchDog(give the url of application to watchDog)
+---->watchDog is a tool which is sending a dummy request like a human being  to our application peropdically (set the interval)
+---->if watchDog heat the application peropdically then load on the application is increased and decrease the perfrmance of application.in order to reduce the load on the application 
+     people will write one heart beat end point ( write one dummy servlet without any database logic). to watchDog configure the url of servlet
+---->how many threads are created ,how many beans are configured(actuato will provide all these details)
+----->following are endpoints 
+      /env      /mappings /auditevents /dump  /configprops /info 
+	 /heapdump /health   /beans       /trace /loggers     /metrices /autoconfig	 
+	 	 
+=========================================================================================================================================
+---->   spring boot starter-*   dependency/jar
+---->   almost 41 starter dependency
+---->   spring-boot-starter-parent--->common configuration like version of spring boot starter
+---->   spring boot has provided its own plugin==>spring-boot-maven-plugin
+              (it will internally configurer war plugin and compiler plugin)
+=========================================================================================================================================
+---->spring-boot-starter dependency provides: spring-boot,spring-context,spring-beans
+---->@SpringBootApplication====>@Configuration+@ComponnetScan+@EnableAutoConfiguration	
+
+---->spring has provided lot of auto configuration classes in spring boot.
+---->e.g DataSourceAutoConfiguration,TransactionManagerAutoConfiguration,
+         JdbcTemplateAutoConfiguration,MVCAutoConfiguration(internally uses BeanFactoryPostProcessor)
+---->when ioc container starts all the autoconfiguration classes are activated.		
+==================================================================================================
+uber jar ===spring boot maven-plugin 
+            Main-Class: org.springframework.boot.loader.JarLauncher
+LiveReload---> spring-boot-devtools
+	  
+			  
+			  
