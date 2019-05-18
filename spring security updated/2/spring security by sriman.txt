@@ -1,0 +1,142 @@
+
+   ldap:--> naming and directory server. 
+        -->we can never get password back once we store in it 
+        -->password storage mechanism is also not know 
+        -->we need to give username and password to ldap server ,server will verify wheter user is             there or not (based on its encryption algorithm)
+        --> group based authentication is possible
+        --> it is  commercial not open source  
+        --> migrating the data from one ldap server provider to another ldap server provider is             very difficult 
+
+     security relam :relam will be given by administrator of ldap server
+
+
+    enterpeise authentication store(use ldap server)
+-----------------------------------------------------
+       
+      username   password   role(authority)
+
+      -->you should never decrypt password in your code rather you should encrypt it always.
+      -->login Handler
+      -->authenticaton store
+
+      -->authentication provider(Interface with multiple implementation)
+                  -- file based authentication provider
+                  -- database based authentication provider
+                  -- ldap based authentication provider
+
+      -->authentication manager(Interface with multiple implementation)    
+             -->authentication mechanism is username and password (username and password                                                                    authentication manager)
+             -->authentication mechanism is token based(token authentication manager)
+
+     -->create HttpSession for that user with JSESSIONID and store userdetails in this JSESSIONID return JSESSIONID to the user .
+     -->next time returning user(same user when coming again) will come with JSESSIONID 
+
+     -->BadCredential Exception
+     -->AccountLocked Exception
+     -->UserNamePasswordExpired Exception
+     -->
+ 
+     -->SecurityContextHolder(metrics of user /how many users are accessing the application ) 
+     -->SecurityContextHolder is singleton class 
+          -->
+    
+ check wheter he is logined or not (checking authenticated or not)
+-------------------------------------------------------------------
+  note::::-->user always want to bypass the login page and he would directly want to access the             resource (we should not allow the user)   .that means we are not madating user to login.  
+          
+          -->my resource shoud checked user is logined or not by going to session and               securitycontextholder  
+         
+          (say for postjob servlet)-->>(a)
+         -->once my resource service method(of servlet class) get the request it has to go to session            and and check wheter JsessionId is there in securityContextHolder or not.
+         -->since the request is directly received by bypassing login page  JsessionId is not in                   securityContextHolder. and service method will through an error Forbidden request                      access.   or through an exception with response code and details of failure.
+    
+
+         (say for gettodayjob servlet) 
+          --->same thing in this servlet also-->>(a)
+
+         (say for applyjob servlet) 
+          --->same thing in this servlet also-->>(a)
+
+             (entry point)
+    ========>donot write this logic in every resource level instead write in  authentication filter . 
+             -->authentication filter comes into picture(checking with user is logined or not logined)
+             --write one authentication filter and configure with url  /*
+             
+          ---> authentication filter should  checke wheter user is logined or not if it is not                logined  redirect request to login.jsp page              
+            
+          -->once user will submit login form data request will again come to authentication filter.
+             authentication filter in this case will not do any thing just it will pass the request to              login handler servlet class service method. 
+          
+          -->then login handler will check user is authenticated or not and also will check user is               authorized or not.             
+
+==================================================================================================
+     Q> why can not we use java ee security
+     
+   --> in tomcat and jetty(servlet based container) enterprise j2ee security can not be implemented .
+   -->java ee enterprise server is required for implementing j2ee security.
+
+   --> it is the responsibility of container to provide security for each request.
+   --> therefore authentication filter comes into picture.(acts as a gate for receiving each and        every request)
+   -->  login.jsp is provided by j2ee container .
+   -->  login handler is provided by j2ee container.
+
+   -->  authentication store (is inbult component within j2ee container)
+   -->  authentication provider is built in component within j2ee container
+        wildfly server--file (authentication store)
+        weblogic server--ldap server(authentication store)
+        glasssfish server-->either file or ldap server(authentication store)
+        
+  note ::in case if we choose authentication store as external store not in built store
+         then we have to write our own authentication provider which is specific to server.
+  -->   authentication  manager is inbuilt component
+  -->   write roles in web.xml(secrity requirement of application)
+
+   -->for one user userprincipal object is created and stored in securitycontext in j2ee 
+
+    SSO--single sign on
+
+
+   disadvantage::
+           1.go for only commercial jee enterprise server    
+           2.for small scale application also only commercial jee enterprise server is required.
+           3.plugability is very difficult.(some server is not allowing for customization and some              server if allow also it is very difficult to implement)
+           4.after customization we cannot switch from one server to another server easily.
+    
+   -->j2ee  enterprise server :connection pooling,j2ee global transaction management,
+                               datasource management,clustering,security,load balancing
+
+ -user table
+ -role table
+ -userroles table
+
+ -->Hard wired 
+ --> along with username and password ,encryption algorithm  will be given to authentication manager.
+
+  solution :: go for spring security it will address all these probelm.        
+======================================================================================================
+                             Spring security
+--------------------------------------------------------------------------------------- 
+ -->components can be highly customizable 
+ -->can be used for both servlet and j2ee container
+
+     configured
+------------------------ 
+ authentication  store -->we need to define 
+ authentication  provider-->it can be plugable
+ authentication  manager-->provided by spring 
+
+ authentication filer -->we need to configured in web.xml with url /* .it is provided by spring .
+ 
+ roles and resources -->need to configured 
+
+ login.jsp -->we can write our login.jsp/spring has already provided
+ login handler -->provided by spring
+
+
+servlet integration with spring framework 
+------------------------------------------
+DelatingServletProxy
+
+
+DelatingFilterProxy
+ 
