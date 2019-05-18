@@ -1,0 +1,16 @@
+-->rest is not an alternate to soap
+-->rest does not support enterprise security
+-->rest does not have a contract(standard contract is not there for rest)
+-->xsd validation kind of 
+-->rest will not scale up for enterprise security
+-->security standards and enterprise features are not yet been build in rest 
+-->reliable messging ,ws security,atomic transaction  and many more things are not there in rest but that support is there in soap
+-->when we start adding enterprise features interoperability will gone in case of rest
+-->in a single project both rest and soap can be  used
+-->soap end point will be given externa business pattern 
+-->rest end point will be given for internal applications 
+-->rest works on json
+
+
+
+-->what is soap adapter ?

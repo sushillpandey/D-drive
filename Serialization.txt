@@ -1,0 +1,119 @@
+Serialization -->serialization is mechanism of Converting the state of an object into bits and bytes is called serialization.
+
+                By defaut object of a class is not serializable if a class is implementing from serializable interface then only                       object of the class is serializable.
+=============================================================================================================================
+
+class A{
+
+}
+
+class A implements Serializabe{
+
+ public int i;
+  
+ pubic A(){
+
+  }
+}
+
+A a=new A();
+a.setI=10;
+
+OOS oos=new OOS(new FileOutPutStream(new File("abc.txt")));
+oos.writeObject(a); //serialized
+oos.close();
+
+OIS ois=new OIS(new FileInPutStream(new File("abc.txt")));
+Object obj=ois.readObject();// deserialized  //while deserialization constructor of class A is called or not(Ans::                                                                                             constructor is not called)
+oos.close();
+
+Note--> constructor  is meant for initialize the state of object.
+==============================================================================================================================
+
+class A implements Serializabe{
+ int i;
+ transient int j;//not participate in serialization
+  pubic A(){
+
+  }
+}
+==================================================================================================================================
+
+                  Composition case 
+             --------------------------
+class Subject{  //this class is not serializable
+
+}
+
+class Course implements Serializabe{
+
+ Subject subject;
+}
+
+Note:: if your class is implementing from serializable inteface and all attributes of your class is also serializable then only your class is serializable.
+       -->Here Subject is non serializable therefore even though Course is implementing from serializable interface object of Course           is not  serializable.
+       -->in order to make Course as serializable declare Subject inside Course as transient
+==================================================================================================================================
+
+             Inheritance case 
+             --------------------------
+class Subject{  //this class is not serializable
+
+}
+
+class Course extends Subject implements Serializabe{
+
+ 
+}
+
+Note:: even though Subject is non serializable Course is serializable.
+==================================================================================================================================
+-->SerialVersionUId is mandatory for every class implementing from serializable interface.This  must and be static.This represent    version number of the class. 
+==================================================================================================================================
+
+class Subject implements Serializabe{ 
+ private String content;
+ private int duration;
+}
+
+Subject subject=new Subject ();
+
+OOS oos=new OOS(new FileOutPutStream(new File("abc.txt")));
+oos.writeObject(subject); //serialized
+oos.close();
+
+serialization-->some standard data representation format()
+externalization-->we can change the standard data representation format
+
+                       magic methods 
+                     -----------------
+                            readObject()
+                            writeObject()
+====================================================================================================================================
+class Subject implements Serializabe{ 
+ private String content;
+ private int duration;
+ writeReplace(){
+ 
+ }
+ 
+}
+
+Subject subject=new Subject ();
+OOS oos=new OOS(new FileOutPutStream(new File("abc.txt")));
+oos.writeObject(subject); //serialized
+oos.close();
+
+class CompressSubject implements Serializabe{ 
+ private String ccontent;
+ private int cduration;
+ readResolve(){
+
+ }
+}
+
+                      magic methods 
+                     --------------
+                     writeReplace()
+                     readResolve()
+=================================================================================================================================
