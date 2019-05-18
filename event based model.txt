@@ -1,0 +1,32 @@
+source:is the person who trigers event.  source acts as an input
+event:is an object encapsulated with information about the action that has been happend on the source.
+event listener:attached to source.listening for an event from source  .identify type of event.
+Event Handler:will perform the operation when source will tell the event
+
+
+we will achieve loose coupling in event based model 
+
+
+DefaultHandler--->Adapter class
+
+
+Abstract factory design pattern
+
+      
+          jaxp api provided                        SAXParser
+                            
+          jaxp api            SAXParserFactory(Interface/Abstract class)-->Factory class
+                                  abstract  newSAXParser()--->factory method for creating object of implementation class of SaxParser
+                                      newInstance()--->method for creating object of SAXParserFactory
+                     
+ implementation(vendor name)                      Xerces2                        Crimpson                      Oracle v2
+
+ vendor provided fctoryclass               Xerces2SAXParserFactory           CrimpsonSAXParserFactory        Oraclev2SAXParserFactory  
+        --->factory method                  newXerces2SAXParser()            newCrimpsonSAXParser()           newOraclev2SAXParser()
+ SAXParser implementation class provided by vendor  Xerces2SAXParserimpl       CrimpsonSAXParserimpl           Oraclev2SAXParserimpl
+
+
+
+SAXParser parser=new Xerces2SAXParserimpl();
+SAXParser parser=new CrimpsonSAXParserimpl();
+SAXParser parser=new  ();

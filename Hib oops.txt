@@ -1,0 +1,851 @@
+public class SocietyAccessor{
+
+ public void showSocities(){
+    Connection con=null;
+    Statement stmt=null;
+    ResultSet rs=null;
+              try{
+			   class.forName("driverClassName");
+			   con=DriverManager.getConnection(url,username,password);
+			   con.setAutoCommit(False);
+			   stmt=con.createStatement();
+			   rs=stmt.executeQuery("select * from Society");
+			   while(rs.next){
+			          rs.getInt("societyNo");
+			          rs.getString("societyName");
+			   }
+             }catch(SqlException e){
+			 
+			 }
+}
+}
+
+
+public class BlockAccessor{
+public void showSocities(){
+    Connection con=null;
+    Statement stmt=null;
+    ResultSet rs=null;
+              try{
+			   class.forName("driverClassName");
+			   con=DriverManager.getConnection(url,username,password);
+			   con.setAutoCommit(false);
+			   stmt=con.createStatement();
+			   rs=stmt.executeQuery("select * from Block");
+			   while(rs.next){
+			          rs.getInt("blockNo");
+			          rs.getString("blockName");
+			   }
+             }catch(SqlException e){
+			 
+			 }
+}
+}
+=============================================================================================================
+Factory  is used for creating the object of another class
+DriverManager is a factory class
+ 1 > abstract the complexity of creating the object of another class(hiding the compexity of creating the object)
+ 2 > My class  donot know the actual class name of object created by  factory class
+
+public class ConnectionFactory{
+
+    public static Connection newConnection(driverClassName,url,username,password){
+	  Connection con=null;
+	  try{
+	  class.forName(driverClassName);
+	  con=DriverManager.getConnection(url,username,password);
+	  con.setAutoCommit(false);
+	 }catch(SqlException|ClassNotFoundException e){
+	 }
+	 
+	}
+} 
+=============================================================================================================
+Q> How many connection object need to be created in our application
+Ans:multiple (therefore ConnectionFactory cannot be singleton)
+
+public class SocietyAccessor{
+
+ public void showSocities(){
+    Connection con=null;
+    Statement stmt=null;
+    ResultSet rs=null;
+              try{
+			  con=ConnectionFactory.newConnection(driverClassName,url,username,password);
+			   stmt=con.createStatement();
+			   rs=stmt.executeQuery("select * from Society");
+			   while(rs.next){
+			          rs.getInt("societyNo");
+			          rs.getString("societyName");
+			   }
+             }catch(SqlException e){
+			 
+			 }
+}
+}
+
+public class BlockAccessor{
+public void showSocities(){
+    Connection con=null;
+    Statement stmt=null;
+    ResultSet rs=null;
+              try{
+			   con=ConnectionFactory.newConnection(driverClassName,url,username,password);
+			   stmt=con.createStatement();
+			   rs=stmt.executeQuery("select * from Block");
+			   while(rs.next){
+			          rs.getInt("blockNo");
+			          rs.getString("blockName");
+			   }
+             }catch(SqlException e){
+			 
+			 }
+}
+}
+=============================================================================================
+db.properties
+----------------------
+db.driverClassName=
+db.url=
+db.username=
+db.password=
+
+
+public class ConnectionFactory{
+
+    public static Connection newConnection(){
+	  Connection con=null;
+	  try{
+	  
+	  load the properties file in properties collection 
+	  
+	  class.forName(props.getProperty("db.driverClassName"));
+	  con=DriverManager.getConnection( props.getProperty("db.url"), props.getProperty("db.username"), props.getProperty("db.password") );
+	  con.setAutoCommit(false);
+	 }catch(SqlException|ClassNotFoundException e){
+	 }
+	 
+	}
+} 
+Q> where you have used  static variable in your project ? 
+
+-->the value in the properties file will be same wheter you read one time or 100 times the value will be same
+
+public class ConnectionFactory{
+
+   private static String driverClassName;
+   private static String url;
+   private static String username;
+   private static String password;
+	
+	static{
+	load the properties file in properties collection
+	driverClassName=props.getProperty("db.driverClassName");
+	url=props.getProperty("db.url");
+	username=props.getProperty("db.username");
+	password=props.getProperty("db.password"); 
+	}
+    public static Connection newConnection(){
+	  Connection con=null;
+	  try{
+	  
+	  class.forName(driverClassName);
+	  con=DriverManager.getConnection(url,username,password);
+	  con.setAutoCommit(false);
+	 }catch(SqlException|ClassNotFoundException e){
+	 }
+	 
+	}
+}
+--Connection should not be singleton 
+===================================================================================================
+ 
+ public class Society{
+  private int societyno;
+  private String societyname;
+  private String societyregistername;
+  private String mobile;
+  private Date societyregisterDate;
+  private String emailaddress;
+  private String state; 
+  private String country;
+  private String addressLine1
+  private int zip;
+  
+  //setter and getter
+  
+  
+  
+ }	
+ 
+public class SocietyAccessor{ 
+ 
+public Society getSocietyBasedOnSocietyNumber(int societynum){ 
+ con=null;
+ pstmt=null;
+ rs=null;
+ try{
+ con=ConnectionFactory.newConnection();
+ pstmt=con.preparedStatement("select * from society where societyno=?");
+ pstmt.setParameter(1,societynum);
+ rs=pstmt.executeQuery();
+ rs.next();
+ Society society =new Society();
+ society.setSocietyName(rs.getString("socname"));
+ society.setSocietyno(rs.getInt("socno"));
+ society.setSocietyregistername(rs.getString("socregname"));
+ society.setMobile(rs.getString("socmob"));
+ //like wise others remaining 
+ 
+ }catch(){
+ }finally{
+ }
+} 
+ 
+ 
+ 
+ 
+ public Society getSocietyBasedOnMobile(String mobile){
+  con=null;
+  pstmt=null;
+  rs=null;
+  try{
+  con=ConnectionFactory.newConnection();
+  pstmt=con.preparedStatement("select * from society where mobile=?");
+  pstmt.setParameter(1,9871759946);
+  rs=pstmt.executeQuery();
+  rs.next();
+  Society society =new Society();
+  society.setSocietyName(rs.getString("socname"));
+  society.setSocietyno(rs.getInt("socno"));
+  society.setSocietyregistername(rs.getString("socregname"));
+  society.setMobile(rs.getString("socmob"));
+  //like wise others remaining 
+ 
+ }catch(){
+ }finally{
+ }
+ 
+ }
+ 
+ }
+ -----------------------------------------------------------------------
+ ---Mappper class comes into picture
+ ---Mapper maps the data from database table to object or from object to database table
+    
+	
+	public class SocietyMapper{
+	
+	//reading only
+	 public Society map(ResultSet rs){
+	 
+	    Society society =new Society();
+        society.setSocietyName(rs.getString("socname"));
+        society.setSocietyno(rs.getInt("socno"));
+        society.setSocietyregistername(rs.getString("socregname"));
+        society.setMobile(rs.getString("socmob"));
+         //like wise others remaining
+	     return society;
+	 } 
+	
+	}
+	
+public class SocietyAccessor{ 
+ 
+public Society getSocietyBasedOnSocietyNumber(int societynum){ 
+ con=null;
+ pstmt=null;
+ rs=null;
+ try{
+ con=ConnectionFactory.newConnection();
+ pstmt=con.preparedStatement("select * from society where societyno=?");
+ pstmt.setParameter(1,societynum);
+ rs=pstmt.executeQuery();
+ rs.next();
+ SocietyMapper smapper=new SocietyMapper();
+ Society society=smapper.map(rs); 
+ }catch(){
+ }finally{
+ }
+} 
+ 
+ public Society getSocietyBasedOnMobile(String mobile){
+  con=null;
+  pstmt=null;
+  rs=null;
+  try{
+  con=ConnectionFactory.newConnection();
+  pstmt=con.preparedStatement("select * from society where mobile=?");
+  pstmt.setParameter(1,9871759946);
+  rs=pstmt.executeQuery();
+  rs.next();
+  SocietyMapper smapper=new SocietyMapper();
+  Society society=smapper.map(rs);
+ }catch(){
+ }finally{
+ }
+ 
+ }
+ 
+ }	
+ ================================================================================================
+ 
+public class Society{
+  private int societyno;
+  private String societyname;
+  private String societyregistername;
+  private String mobile;
+  private Date societyregisterDate;
+  private String emailaddress;
+  private String state; 
+  private String country;
+  private String addressLine1
+  private int zip;
+  
+  //setter and getter
+   
+}
+ 
+ public class Block{
+	protected int blockNo;
+	protected String blockName;
+	protected String description;
+	protected int units;
+	 //setter and getter
+}
+
+
+public class BlockMapper{
+
+	
+}
+
+ public class SocietyMapper{
+	
+	//reading only
+	 public Society map(ResultSet rs){
+	 
+	    Society society =new Society();
+        society.setSocietyName(rs.getString("socname"));
+        society.setSocietyno(rs.getInt("socno"));
+        society.setSocietyregistername(rs.getString("socregname"));
+        society.setMobile(rs.getString("socmob"));
+         //like wise others remaining
+	     return society;
+	 } 
+	
+}
+
+
+public class BlockAccessor{ 
+ 
+
+}
+
+	
+public class SocietyAccessor{ 
+ 
+public Society getSocietyBasedOnSocietyNumber(int societynum){ 
+ con=null;
+ pstmt=null;
+ rs=null;
+ try{
+ con=ConnectionFactory.newConnection();
+ pstmt=con.preparedStatement("select * from society where societyno=?");
+ pstmt.setParameter(1,societynum);
+ rs=pstmt.executeQuery();
+ rs.next();
+ SocietyMapper smapper=new SocietyMapper();
+ Society society=smapper.map(rs); 
+ }catch(){
+ }finally{
+ }
+} 
+ 
+ public Society getSocietyBasedOnMobile(String mobile){
+  con=null;
+  pstmt=null;
+  rs=null;
+  try{
+  con=ConnectionFactory.newConnection();
+  pstmt=con.preparedStatement("select * from society where mobile=?");
+  pstmt.setParameter(1,9871759946);
+  rs=pstmt.executeQuery();
+  rs.next();
+  SocietyMapper smapper=new SocietyMapper();
+  Society society=smapper.map(rs);
+ }catch(){
+ }finally{
+ }
+ 
+ }
+ 
+ }
+ 
+============================================================================================================
+	
+  --which class map to which table and which attribute map to which column
+		
+
+	//immutable class . data is fixed and will be stored only once never be changed thats why no setter method 
+	//it is also a single class
+	public class EntityMetaData{
+	  private static Map<Class,Properties>entitycolumntoattributemetadatamap;
+	
+	  static{
+	   
+	   entitycolumntoattributemetadatamap=new HashMap();
+	   entitycolumntoattributemetadatamap.put(Society.class,props1);
+	   entitycolumntoattributemetadatamap.put(Block.class,props2);
+	   entitycolumntoattributemetadatamap.put(Society.class,props3);
+	   entitycolumntoattributemetadatamap.put(Society.class,props4);
+	   //likes wise remaining
+	  }
+	  
+	  //getter method 
+	  //setter is not required
+	
+	  public Properties (Class cls){
+	  
+	  
+	  }
+	}
+ 
+  	
+  public class 	GenericMapper{
+  
+  
+    public Object map(ResultSet rs,Class cls,properties columnattributeprops){
+		
+		
+		
+		
+		
+    }
+	
+	public PreparedStatement  map(Object object,Connection con,String sqlQuery){
+	  PreparedStatement pstmt=null;
+	  Properties props=null;
+	  EntityMetaDataReader reader=null;
+	  pstmt=con.preparedStatement(sqlQuery);
+	  reader=new PropertiesEntityMetaDataReader();
+	  props=reader.getEntityMetaData(object.getClass());
+	  
+	  Method[]method=object.getClass().getDeclaredMethods();
+	  for(String key:props){
+	    
+	  }
+	  
+	 
+	  return pstmt;
+	}
+  
+  }
+
+  
+public class SocietyAccessor{ 
+ 
+ public Society getSocietyBasedOnSocietyNumber(int societynum){ 
+ con=null;
+ pstmt=null;
+ rs=null;
+ try{
+ con=ConnectionFactory.newConnection();
+ pstmt=con.preparedStatement("select * from society where societyno=?");
+ pstmt.setParameter(1,societynum);
+ rs=pstmt.executeQuery();
+ rs.next();
+ GenericMapper mapper=new GenericMapper();
+ EntityMetaData entityMetaData=new EntityMetaData();
+ Map<Class,Properties>entitycolumntoattributemetadatamap=entityMetaData.entitycolumntoattributemetadatamap();
+ Society society=mapper.map(rs,Society.class,entitycolumntoattributemetadatamap.get(Society.class)); 
+ }catch(){
+ }finally{
+ }
+ return society;
+} 
+ 
+ public Society getSocietyBasedOnMobile(String mobile){
+  con=null;
+  pstmt=null;
+  rs=null;
+  try{
+  con=ConnectionFactory.newConnection();
+  pstmt=con.preparedStatement("select * from society where mobile=?");
+  pstmt.setParameter(1,9871759946);
+  rs=pstmt.executeQuery();
+  rs.next();
+  GenericMapper mapper=new GenericMapper();
+  EntityMetaData entityMetaData=new EntityMetaData();
+  Map<Class,Properties>entitycolumntoattributemetadatamap=entityMetaData.entitycolumntoattributemetadatamap();
+  Society society=mapper.map(rs,Society.class,entitycolumntoattributemetadatamap.get(Society.class));  
+ }catch(){
+ }finally{
+ }
+ return society;
+ }
+ 
+ }
+ 
+==========================================================================================
+Q> what is encapsulation
+	Ans>encapsulation is wrapping the data and methods around data in a class.
+	---there is nothing to do with security in encapsulation. 
+	---donot expose data of a class rather provide methods to access the data
+	
+	public class EntityMetaData{
+	  private static Map<Class,Properties>entitycolumntoattributemetadatamap;
+	
+	  static{
+	   
+	   entitycolumntoattributemetadatamap=new HashMap();
+	   entitycolumntoattributemetadatamap.put(Society.class,props1);
+	   entitycolumntoattributemetadatamap.put(Block.class,props2);
+	   entitycolumntoattributemetadatamap.put(Society.class,props3);
+	   entitycolumntoattributemetadatamap.put(Society.class,props4);
+	   //likes wise remaining
+	  }
+	  
+	  //donot provide getter also 
+	  //providing getter method is also same as accessing attribute directly outside the class  because getter is returning the attribute 
+	  
+	   //method around the data entitycolumntoattributemetadatamap
+	  public static Properties getEntityMetaData(Class cls){
+	  
+	    Properties props=entitycolumntoattributemetadatamap.get(cls);
+	    return props;
+	  }
+	}
+	
+	
+	
+Abstraction: Hide the internal details of another class from my class so that i want functionality 
+             from other class.
+
+----Encapsulation is about data. Abstraction is about functionality
+
+----Share the data through encapsulation and build through abstraction		 
+=================================================================================================
+	  
+public interface EntityMetaDataReader{
+
+     properties  getEntityMetaData(Class cls);
+}
+public class PropertiesEntityMetaDataReader implements EntityMetaDataReader {
+   public  properties  getEntityMetaData(Class cls){
+    properties props=null;
+    props=new Properties();
+    String propsfilename=cls.getClass().getSimpleName()+".properties";
+    props.load(this.getclass().getclassloader().getresourceasstream(propsfilename);
+    return props;
+   }
+
+}
+public class XmlEntityMetaDataReader implements EntityMetaDataReader{
+   public  properties  getEntityMetaData(Class cls){  
+  // sax logic for reading data from xml
+  //after reading data from xml bind the data into properties collection
+   }
+
+}
+
+
+	  
+public class SocietyAccessor{ 
+ 
+ public Society getSocietyBasedOnSocietyNumber(int societynum){ 
+ con=null;
+ pstmt=null;
+ rs=null;
+ try{
+ con=ConnectionFactory.newConnection();
+ pstmt=con.preparedStatement("select * from society where societyno=?");
+ pstmt.setParameter(1,societynum);
+ rs=pstmt.executeQuery();
+ rs.next();
+ GenericMapper mapper=new GenericMapper();
+ EntityMetaDataReader reader=null;
+ reader=new EntityMetaDataReader();
+ Properties props=reader.getEntityMetaData(Society.class);
+ Society society=mapper.map(rs,Society.class,props); 
+ }catch(){
+ }finally{
+ }
+ return society;
+} 
+ 
+ public Society getSocietyBasedOnMobile(String mobile){
+  con=null;
+  pstmt=null;
+  rs=null;
+  try{
+  con=ConnectionFactory.newConnection();
+  pstmt=con.preparedStatement("select * from society where mobile=?");
+  pstmt.setParameter(1,9871759946);
+  rs=pstmt.executeQuery();
+  rs.next();
+  GenericMapper mapper=new GenericMapper();
+  EntityMetaDataReader reader=null; 
+  reader=new EntityMetaDataReader();
+  Properties props=reader.getEntityMetaData(Society.class);
+  Society society=mapper.map(rs,Society.class,props);   
+ }catch(){
+ }finally{
+ }
+ return society;
+ }
+ 
+ }	   
+		   
+=======================================================================================		   
+		   
+		   
+public class EntityManager{
+	
+	public Object getEntity(Class entityclass,String tablename,String pkcolumnname,int pkcolumnvalue){
+	     con=null;
+         pstmt=null;
+         rs=null;
+		 String SqlQuery=null;
+		 EntityMetaDataReader reader=null;
+		 Properties props=null;
+		 Object object=null;
+		 String tablename=null;
+		 String pkcolumnname=null;
+         try{
+             con=ConnectionFactory.newConnection();
+             SqlQuery="select * from "+tablename+" where "+pkcolumnname+"=?"; 
+             pstmt=con.preparedStatement(SqlQuery);
+             pstmt.setInt(1,pkcolumnvalue);
+             rs=pstmt.executeQuery();
+             rs.next();
+             GenericMapper mapper=new GenericMapper(); 
+             reader=new EntityMetaDataReader();
+             props=reader.getEntityMetaData(entityclass);
+             object=mapper.map(rs,entityclass,props);   
+       }catch(){
+       }finally{
+       }
+       return object;
+   }
+	
+}
+===========================================================================================
+
+entitytable.properties
+----------------------	   
+
+public class Entity{
+
+  public String  getTable(Class entityclass){
+  Properties props=null;
+  String entityTable=null;
+  props=new Properties();
+  props.load(this.getClass().getClassLoader().getResourceAsStream(entitytable.properties));
+    if(props.containsKey(entityclass.getName())){
+      entityTable=props.getProperty(entityclass.getName());
+    }  
+    return entityTable;
+  }
+}
+		   		   
+public class EntityManager{
+	
+	public Object getEntity(Class entityclass,String pkcolumn,int pkcolumnvalue){
+	     con=null;
+         pstmt=null;
+         rs=null;
+		 String SqlQuery=null;
+		 EntityMetaDataReader reader=null;
+		 Properties props=null;
+		 Object object=null;
+		 String tablename=null;
+		 String pkcolumnname=null;
+		 Entity entity=null;
+         try{
+             con=ConnectionFactory.newConnection();
+			 entity=new Entity();
+			 tablename=entity.getTable(entityclass);
+             SqlQuery="select * from "+tablename+" where "+pkcolumnname+"=?"; 
+             pstmt=con.preparedStatement(SqlQuery);
+             pstmt.setInt(1,pkcolumnvalue);
+             rs=pstmt.executeQuery();
+             rs.next();
+             GenericMapper mapper=new GenericMapper(); 
+             reader=new EntityMetaDataReader();
+             props=reader.getEntityMetaData(entityclass);
+             object=mapper.map(rs,entityclass,props);   
+       }catch(){
+       }finally{
+       }
+       return object;
+   }
+	
+	public  int save (Society society){
+   
+         con=null;
+         pstmt=null;
+		 String SqlQuery=null;
+		 EntityMetaDataReader reader=null;
+		 Properties props=null;
+		 String tablename=null;
+		 Entity entity=null;
+		 int rows=0;
+         try{
+             con=ConnectionFactory.newConnection();		
+             tablename=entity.getTable(entityclass);
+			 
+			 reader=new PropertiesEntityMetaDataReader();
+             props=reader.getEntityMetaData(society.getClass());
+			 String allColumns="";
+			 String allColumnscorespomdingquestionmark="";
+			 for (String key :props.keySet()){
+			 allColumns=allColumns+key+",";
+			 allColumnscorespomdingquestionmark=allColumnscorespomdingquestionmark+"?,"
+			 }
+			 SqlQuery="insert into "+ tablename " "+"("+allColumns+")"+"values("+allColumnscorespomdingquestionmark+")";
+			 
+			 GenericMapper mapper=new GenericMapper(); 
+			 pstmt==mapper.map(society,con,sqlQuery);
+			 
+			 int rows=pstmt.executUpdate();
+               
+       }catch(){
+       }finally{
+       }
+       return rows;
+   }
+}		   
+		   
+===========================================================================================
+
+note :maintain one standard key with name primarykey in each properties file
+		   
+		   
+
+  public class Entity{
+
+  public String  getTable(Class entityclass){
+  Properties props=null;
+  String entityTable=null;
+  props=new Properties();
+  props.load(this.getClass().getClassLoader().getResourceAsStream(entitytable.properties));
+    if(props.containsKey(entityclass.getName())){
+      entityTable=props.getProperty(entityclass.getName());
+    }  
+    return entityTable;
+  }
+}
+
+
+
+public interface EntityMetaDataReader{
+
+     properties  getEntityMetaData(Class cls);
+}
+public class PropertiesEntityMetaDataReader implements EntityMetaDataReader {
+   public  properties  getEntityMetaData(Class cls){
+    properties props=null;
+    props=new Properties();
+    String propsfilename=cls.getClass().getSimpleName()+".properties";
+    props.load(this.getclass().getclassloader().getresourceasstream(propsfilename);
+    return props;
+   }
+
+}
+public class XmlEntityMetaDataReader implements EntityMetaDataReader{
+   public  properties  getEntityMetaData(Class cls){  
+  // sax logic for reading data from xml
+  //after reading data from xml bind the data into properties collection
+   }
+
+}
+		   		   
+public class EntityManager{
+	
+	public Object getEntity(Class entityclass,int pkcolumnvalue){
+	     con=null;
+         pstmt=null;
+         rs=null;
+		 String SqlQuery=null;
+		 EntityMetaDataReader reader=null;
+		 Properties props=null;
+		 Object object=null;
+		 String tablename=null;
+		 String pkcolumnname=null;
+		 Entity entity=null;
+		 GenericMapper mapper=null;
+         try{
+             con=ConnectionFactory.newConnection();
+			 entity=new Entity();
+			 tablename=entity.getTable(entityclass);
+			 reader=new PropertiesEntityMetaDataReader();
+             props=reader.getEntityMetaData(entityclass);
+			 pkcolumnname=props.getProperty("primarykey");
+             SqlQuery="select * from "+tablename+" where "+pkcolumnname+"=?"; 
+             pstmt=con.preparedStatement(SqlQuery);
+             pstmt.setInt(1,pkcolumnvalue);
+             rs=pstmt.executeQuery();
+             rs.next();
+			 
+			 //convert properties into hashmap and remove key whose name is primarykey 
+             HashMap map=new HashMap();			 
+			 for (String name: props.stringPropertyNames())
+                  map.put(name, properties.getProperty(name));
+		     map.remove(primarykey);
+            //convert hashmap into Properties 
+			 props= null;
+             Set<Map.Entry<String,String>> set = map.entrySet();
+                   for (Map.Entry<String,String> entry : set) {
+                           props.put(entry.getKey(),entry.getValue());
+                   }              
+
+            mapper=new GenericMapper(); 
+            object=mapper.map(rs,entityclass,props);   
+       }catch(){
+       }finally{
+       }
+       return object;
+   }
+   
+   public  void save (Society society){
+   
+         con=null;
+         pstmt=null;
+		 String SqlQuery=null;
+		 EntityMetaDataReader reader=null;
+		 Properties props=null;
+		 String tablename=null;
+		 Entity entity=null;
+		 int rows=0;
+         try{
+             con=ConnectionFactory.newConnection();		
+             tablename=entity.getTable(entityclass);
+			 
+			 reader=new PropertiesEntityMetaDataReader();
+             props=reader.getEntityMetaData(society.getClass());
+			 String allColumns="";
+			 String allColumnscorespomdingquestionmark="";
+			 for (String key :props.keySet()){
+			 allColumns=allColumns+key+",";
+			 allColumnscorespomdingquestionmark=allColumnscorespomdingquestionmark+"?,"
+			 }
+			 SqlQuery="insert into "+ tablename " "+"("+allColumns+")"+"values("+allColumnscorespomdingquestionmark+")";
+			 
+			 GenericMapper mapper=new GenericMapper(); 
+			 pstmt==mapper.map(society,con,sqlQuery);
+			 
+			 rows=pstmt.executUpdate();
+               
+       }catch(){
+       }finally{
+       }
+              return rows;
+   }
+   	
+}		   
+=======================================================================================================
+
+Abstraction ::e.g servicelocator design pattern
+				   
+				    
