@@ -1,0 +1,19 @@
+
+-->ibm people has written this class
+com.ibm.
+
+class Composer{
+
+}
+
+
+-->oracle people has written this class
+com.oracle.
+
+class Composer{
+
+}
+
+PackageNamingConvention
+======================================================================================================
+companyname.projectname/productname.modulename.rolenameofclass(dao/service/controller).className

@@ -1,0 +1,33 @@
+       Q>What is the minimum annotation we need to use to declare a service as jaxws service ?
+=====================================================================================================
+       Q> List all annotation we need to use to declare a service as jaxws service ?
+=====================================================================================================
+wsgen -->contract last approach
+wsimport-->contract first and consumer
+===================================================================================================== 
+stub based consumer 
+dispatch based consumer---->(Asynchronus support)+(html binding/soap binding) 
+====================================================================================================
+saaj-->soap attachement api for java.
+====================================================================================================
+ Q>what is dispatch api based consumer ?
+ Ans> -->it just take the payload as input and dispatches the payload(without marshalling and unmarshaing) to provider and receive         response as payoad(without marshalling and unmarshaing).
+      -->in this case we can use our own marshalling and unmarshalling logic (properitary library for marshalling and unmarshalling)
+         which is not possible in case of stub based consumer. Dispatch api is flexibe.
+      -->lot of development time is save and performance is increased
+      -->i donot need stub,i donot need input and output classes,sei interface is not required.
+      --> provider specific java classes are not required to communicate with provider.
+      --> no vendor specific binding classes generated in case of dispatch based consumer.
+      -->(if you give soap i will put into body)/(if you give xml i will put into body) 
+      -->i donot need to use any tool in this consumer.
+      -->if you design consumer using dispatch api based consumer it is working for bothh soap and rest based provider.
+      --> it support synchronous and asynchrous support for consumer development.
+      -->Dispatch class is used instead of Stub class which is similar to stub class except marshalling and unmarshalling capabiity is          not there.it has network related logic.
+       
+           
+           ----------------mode to Dispatch object-------------------------
+              --soap message (if messaging model is soap)
+              --source message(if messaging model is payload) 
+           -----------------------------------------------------------------
+
+====================================================================================================

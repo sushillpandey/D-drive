@@ -1,0 +1,5 @@
+Q>where you have used polymorphism
+Ans> in exception handling we have used polymorphism
+
+Q>where you have used encapsulation
+Ans> in exception handling we have used encapsulation
