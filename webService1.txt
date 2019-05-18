@@ -1,0 +1,51 @@
+       Q>Which type of web services you are working on ?
+--------------------------------------------------------------------------------------------------------
+
+ wsi 
+     bp 1.0 
+
+ jaxrpc api
+
+           jaxrpc si implementation
+           apache axis implementation
+           oracle web logic server web service implementation
+           ibm websphere server web service implementation
+
+ wsi 
+     bp 1.1
+
+ jaxws api
+           jaxws ri implementation
+           apache axis2  implementation
+           metro implementation
+           apache cxf implementation
+           oracle web logic server web service implementation
+           ibm websphere server web service implementation
+
+
+========================================================================================================
+       Q>which approach you are following in developing web services ?
+
+           note---->wsdl acts as a contract between consumer and provider(from achitecturalpoint of view)
+
+           contract first apporach(write wsdl documdent first)--->
+
+           contract last apporach(write java class first)--->wsdl documdent is generated in last 
+==========================================================================================================
+       Q>which endpoint based web services you are working on ?
+              
+        servlet based endpoint 
+        ejb based endpoint
+
+===========================================================================================================
+      Q> why are you using servlet based endpoint why not ejb based endpoint 
+     
+       Ans> ejb container provides enterprise application features like transaction,security,coonection pooling etc
+            which are not used by web sevices then why we should go for heavy weight container ejb instead go to servlet container .
+            ejb container are commercial
+=========================================================================================================== 
+     Q> when to go for ejb based endpoint web services development ?
+        Ans> hint (serialization)
+             hint (within organization) 
+==========================================================================================================
+     Q> which mep you are using can you explain ? 

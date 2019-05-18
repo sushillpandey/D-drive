@@ -1,0 +1,164 @@
+  Q>How many ways we can apply security for web services? 
+  Ans>   custom security standard
+         enterprise security standard
+===================================================================================================================
+     custom security standard--->used within organization (intranet based)
+    
+      -->consumer need to send username and password and appcode  as part of soap header 
+        at provider side handler will receive the request .and handler will read the username and password and checks
+         it is available or not if it is not available it raises soap fault .and soap fault is communicated back to comsumer.
+      -->At provider side write the Handler
+
+      -->within the organisation my service will be consumed.
+      --> i can go for enterprise security standard also in case of intranet based application but cost of development will be high          and complexity will be also high.
+
+     --> all consumer application needs to be register with provider database table (app table,user table)
+      
+         appName   appcode    appservices 
+     
+
+==================================================================================================================
+    enterprise security standard--->people across the world 
+
+
+
+ key factor for Enterprise class solution for application 
+ ----------------------------------------------------------
+   scallability of application 
+   High performance of application 
+   High availability (very lown down time)
+   Hihg security
+==================================================================================================================
+        Levels of security(for both web application and web services)
+        ----------------------------------------------------------------
+           1>Authentication(knowing the identity of user) 
+           2>Authorization
+           3>confidentiality
+           4>integrity
+           5>Transport level security
+
+             Authentication --> user identity validation is done .
+                                checking wheter user is register with my application or not .
+                                so that un wanted user will not access  my application 
+                               (in case of web application end user will register to the application and will get their username and                                 password )
+                                
+                               (in case of web services (B2B)application consumer  will not register to the application rather                                 provider will create  username and password and give to consumer based on bussiness contractual                                 aggrement with consumer)
+        
+            Authorization---> checking wheter specific feature is accessbile for the user or not based on their role.
+                              (role based access)
+                              
+            confidentiality(data protection)-->  message level protection 
+                               encrypt the confidential data and then only send it to provider or web application
+
+            integrity --->stop hacker to replace the data packet sent by consumer using digital signature provided by provider.
+                          
+                         
+            Transport layer security--> encryption and decryption is not done on data packet level. Here whole communication 
+                                        channel itself is encrypted.
+                                        In order to achieve TLS we donot need to write any code in your program .
+                                       it will be enable  by administrator of application server.
+                                        it is supported by infrastructure of application.   
+===================================================================================================================================
+      
+       j2ee --to build enterprise class level feature in java
+
+            --enterprise class level features are available as part of j2ee specification
+   
+   
+ enterprise class level features  available as part of j2ee specification
+---------------------------------------------------------------------------  
+   security
+   scalability
+   performance optimization
+   etc
+==================================================================================================================================
+
+
+ 
+           j2ee security
+         -----------------
+
+
+   --security markup(level of security )
+
+     -->in http request Header send username and password(authentication details)
+          
+       403 --forbidden request access.  
+             
+                
+                authentication store
+                -----------------------
+             -->file,database,ldap server
+   
+ -->3 time maximum for forbidden request access  username and password dialog  will come after that error page will come
+ 
+
+various way of receiving the security data :
+---------------------------------------------------------------------------------
+ security mechanism/level: authentication,authorization,confidentiality,integrity,TLS 
+ Authentication mechanism/method :login config information(as part of header /or any other way)
+
+            Authentication methods are :
+            --------------------------------
+            Basic: plain text(internal application )
+            Digest:in case of encrypted password go for digest(if it is public application) 
+            form:(we can write our own login page) :not as part of header will be send as part of body will be sent
+
+Authentication Manager 
+-------------------------
+========================================================================================================================
+  
+     Q>why cannot we go for j2ee security model for web service why we are going for seperate ws security for web service (why we             need seperate specification in web service)
+     Q> why we cannot apply j2ee security  for web service 
+========================================================================================================================
+
+  -->data sent as part of soap header will be encrypted and cannot be stolen by other people
+
+ reasons for moving from j2ee security to web service security standard
+------------------------------------------------------------------------
+   -- more  security mechanism and authentication  mechanism provided by saml and ws security standard.
+      saml(security assertion markup language)
+     
+   --they provide standard markup for exchaning the security data  
+ 
+
+     security markup
+ 
+   ws security Manager
+   saml security manager
+
+
+     --Call back handler 
+==========================================================================================================================
+
+   ws policy : information about security reuirement will be provided to the external world in a standandard language .it provides                flexible grammar and standard tag for providing requirement of web services.
+                                 
+        ws policy specification
+   ---------------------------------- .
+     poicy: its container for handling policy asssertion 
+     policy assertion:characterstics that we need to apply on a web service end points
+     poicy  expression: way to apply multiple assertion by using some condition
+     policy subject:on whom you are binding this assertion 
+     policy attachement:the language through which we apply subject  
+     policy namespace:
+
+
+          ws uses:required,rejected,optional,ignore
+          ws preference --->deals about order of assertion
+
+
+    --->for every ws policy tag one id is provided . 
+
+
+        -->username and password based authentication(infinite time access)
+        -->token based authentication(access for service for certain time )
+
+
+==================================================================================================================================
+  Apache axis2 -->non container dependent 
+                  thats why callback hander is used
+
+  
+
+
+     

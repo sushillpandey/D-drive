@@ -1,0 +1,57 @@
+====================================================================================================================
+ Q> fault elements in soap 
+ Ans>fault code -->reason for failure
+     fault string-->short message
+     fault actor-->which is the program which has thrown the fault  message
+     detail-->actual error message is dump into this section
+=====================================================================================================================
+
+  logical failure  --> programs are generating(maximum information)
+  external failure --> programs are not generating. because of external resource(miniumum information )
+
+  
+  --logical failures are non retriable 
+  --external failures are retriable(same request can be retriable  with same data )
+
+  --modeled fault(logical failures)
+  --unmodeled fault(due to external failures) 
+  --if it is unmodeled fault then through webservice exception in consumer side
+=====================================================================================================================
+ Q> Explain exception in web services ?
+
+======================================================================================================================
+               Features of apache axis 2
+            ----------------------------------
+          1>convinent api is provided to work with soap message
+          2> it is written in java and works for both consumer and provider 
+          3> reach set of tools are provided for deveoping both consumer and provider
+          4> wsdl can be easily generated from java
+          5>it supports multiple transport protocol (ftp/http/smtp/jms)  
+          6>support multiple databinding api and library for generating binding classes(including jax-b api)
+          7>it support pojo based development (without annotation and without implementation or extending any class or interface)    
+          8>it support ws * features(ws addressing,ws security,ws policy,ws atomic transaction,ws reliability etc)
+          9> it is modular in nature and extensible(we can add a feature or can remove a feature  easily)
+          10>both rest and soap based services can developed
+          11>support dynamic deployment model 
+          
+==========================================================================================================================
+
+             Apache axis2
+  ------------------------------
+
+     download  development distribution->binary distribution-->development enviroment
+     download  run time distribution ->war distribution-->run time enviroment 
+
+mtom->Message Transmission Optimization Mechanism
+ 
+========================================================================================================================= 
+
+ steps for developing Apache axis 2(contract first approach)
+   
+     1=> create a normal java project(not dynamic web project)
+     2=> write wsdl 
+     3=>generate binding classes(use tool wsdl2java)
+     4=>create a jar 
+     5=> rename jar to aar format
+     6=>place into service of runtime enviroment
+             
