@@ -1,0 +1,17 @@
+spring cloud sleuth
+========================
+--helps in maintaining logs across multiple services of micro services .
+--spring cloud sleuth uses   spanid and traceid for this.
+--for tracing the logs across microservices traceid is used.
+--for tracing the logs for  particular microservices spanid is used.
+
+--------------------------------------------------------------------------------------
+spring cloud eureka server
+==========================
+
+
+
+
+
+
+
