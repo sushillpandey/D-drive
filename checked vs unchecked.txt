@@ -1,0 +1,11 @@
+----some problems can be handle 
+----alternate path of execution
+----checked exception have always alternate path of execution
+----checked exception have high tendency of recovery
+----catch is alternate path of execution
+----in checked exception compiler will forces you to write catch block
+----in case of checked exception either we have to write catch block or throws if you are not     interested  to write catch block in that case you can throws it to handle it by caller method.
+---in chechked exception writing try catch or throws is mandatory 
+
+----unchecked exception are non recoverable(not forces to the write try catch/need not to write try catch)
+----in unchechked exception writing try catch  is optional 

@@ -1,0 +1,29 @@
+
+
+   features of apache cxf
+----------------------------------------
+ 1> we can build both soap based web services, rest based web services, corba component also 
+ 2> it support multiple transport protocal like http/smtp/jms protocal
+ 3> more better support for most of ws * specification is there compared to apache axis2 
+ 4> container independent impementation
+ 5> it has in built cxf server(apache server) (in memory server)
+ 6> it support both synchronous and asynchronous 
+ 7> it provides a wsdl vaidator tool for wsdl validation 
+ 8> multiple data bind support 
+ =======================================================================
+
+contract first approach
+  -----------------------
+  write wsdl
+  generate binding classes 
+  write implementation class
+  web service deployment description file(endpoint name,url pattern,implementation class)
+  configure CxfServlet in web servlet matching with endpoint url
+=========================================================================
+
+ContextLoaderListener --> He will create ioc container by reading  
+ 
+---->ContextLoaderListener  after creating ioc container he will put ioc container into ServletContext Object 
+--->We need to provide url pattern for the beans in the ioc container
+--->Apache Cxf has provider JAXWSServerBean which acts like  wrapper on top of original class.it is one class which is like a holder     which holds the original class along with metadata of orignal class.
+-->cxf has provided BeanFactory post processor(JAXWSServerBean)
